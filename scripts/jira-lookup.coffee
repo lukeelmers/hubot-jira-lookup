@@ -21,11 +21,12 @@
 
 module.exports = (robot) ->
 
+  jira_regex = process.env.HUBOT_JIRA_REGEX || "/\b[a-zA-Z]{2,12}-[0-9]{1,10}\b/"
   ignored_users = process.env.HUBOT_JIRA_LOOKUP_IGNORE_USERS
   if ignored_users == undefined
     ignored_users = "jira|github"
 
-  robot.hear /\b[a-zA-Z]{2,12}-[0-9]{1,10}\b/, (msg) ->
+  robot.hear jira_regex, (msg) ->
 
     return if msg.message.user.name.match(new RegExp(ignored_users, "gi"))
 
